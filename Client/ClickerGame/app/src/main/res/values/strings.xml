@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">My Application</string>
-
+    <string name="press">Press</string>
+    <string name="points">Current Points</string>
+    <string name="pointsTo">Clicks to next reward</string>
 </resources>

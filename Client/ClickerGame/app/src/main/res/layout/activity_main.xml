@@ -6,13 +6,77 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="170dp"
+        android:layout_height="121dp"
+        android:layout_marginStart="118dp"
+        android:layout_marginEnd="119dp"
+        android:layout_marginBottom="224dp"
+        android:text="@string/press"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/pointLabel"
+        android:layout_width="170dp"
+        android:layout_height="121dp"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="60sp"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="125dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:textAlignment="center"
+        android:layout_width="170dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="116dp"
+        android:layout_marginBottom="7dp"
+        android:text="@string/points"
+        app:layout_constraintBottom_toTopOf="@+id/pointLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="116dp"
+        android:text="@string/pointsTo"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pointLabel" />
+
+    <TextView
+        android:id="@+id/pointsToLabel"
+        android:layout_width="84dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="68dp"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
