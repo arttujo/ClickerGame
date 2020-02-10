@@ -45,5 +45,12 @@ app.get('/player',(req,res) => {
     queries.getPlayerPoints(data,res)
 })
 
+app.get('/reset',(req,res)=>{
+    const data = [
+        req.body.name,
+    ]
+    queries.resetPlayer(data,res)
+})
+
 
 app.listen(3000, ()=> {console.log("App is ready and listening to port: 3000!")})

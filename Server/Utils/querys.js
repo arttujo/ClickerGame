@@ -143,7 +143,29 @@ const pointHandler = (data,res,clickAmount) =>{
     }
 }
 
-
+const resetPlayer = (data,res) => {
+  const selectQ = 'SELECT name,points FROM players WHERE `name` = ?'
+  db.connect().query(
+      selectQ,
+      data,
+      (err,results,fields)=>{
+        if (err==null){
+          db.connect().execute(
+              'UPDATE players SET points = 20 WHERE `name` = ?',
+              data,
+              (err,fields)=>{
+                let responseData = {
+                  response: "Reset Points to 20",
+                  name: results[0].name,
+                  points: results[0].points,
+                }
+                res.send(responseData)
+              }
+          )
+        }
+      }
+  )
+}
         
     
 
@@ -156,4 +178,5 @@ module.exports = {
     getPlayerPoints: getPlayerPoints,
     removePoint: removePoint,
     pointHandler: pointHandler,
+    resetPlayer: resetPlayer,
 }
