@@ -8,22 +8,8 @@ const bodyParser = require('body-parser')
 const app = express()
 
 //The click amount of players is tracked via a simple variable on the server. Will reset everytime when the server is restarted tho
-//TODO is to add logic to check every 10th, 100th and 500th click 
-let currClicks = 0
 
-const pointHandler = (clicks, player, res)=>{
-    console.log(player[0])
-    if (clicks%10 == 0){
-        console.log("10th")
-        queries.addPoints(player,10,res)
-    } else if(clicks%100 == 0){
-        console.log("100th")
-    } else if(clicks%500 == 0){
-        console.log("500th")
-    } else {
-        console.log("nothing")
-    }
-}
+let currClicks = 0
 
 app.use(bodyParser.json())
 //app.use(express.static('public'))

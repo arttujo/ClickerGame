@@ -128,13 +128,13 @@ const exec = (points,data,res,clickAmount)=> {
 
 //Not pretty but does all the handling related to points the user has
 const pointHandler = (data,res,clickAmount) =>{
-    if (clickAmount%500 == 0){
+    if (clickAmount%500 === 0){
         console.log("500th")
         exec(250,data,res,clickAmount)
-    } else if(clickAmount%100 == 0){
+    } else if(clickAmount%100 === 0){
         console.log("100th")
         exec(40,data,res,clickAmount)
-    } else if(clickAmount%10 == 0){
+    } else if(clickAmount%10 === 0){
         console.log("10th")
         exec(5,data,res,clickAmount)
     } else {
