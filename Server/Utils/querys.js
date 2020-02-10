@@ -61,34 +61,6 @@ const getPlayerPoints = (data,res) => {
         }
     )
 }
-// UPDATE `players` SET `points`= 2 WHERE `name` = "test5"
-//Removes one point from the person and returns a response with current points and name
-//Also checks if the player runs out of points and sends a response telling that
-const removePoint = (data,res) =>{
-    db.connect().execute(
-        'UPDATE players SET points = points - 1 WHERE `name` = ?',
-        data,
-        (err,results,fields)=>{
-            if(err == null){
-                db.connect().query(
-                    'SELECT name,points FROM players WHERE `name` = ?',
-                    data,
-                    (err,results,fields)=>{
-                        if (results[0].points === 0){
-                            console.log("No more points")
-                            let responseData= {
-                                response: "No more points",
-                                pointsEnded: true
-                            }
-                            res.send(responseData)
-                        }
-                        res.send(results)
-                    }
-                )
-            }
-        }
-    )
-}
 
 //Helper function to handle updates when adding points to players
 const exec = (points,data,res,clickAmount)=> {
@@ -157,7 +129,7 @@ const resetPlayer = (data,res) => {
                 let responseData = {
                   response: "Reset Points to 20",
                   name: results[0].name,
-                  points: results[0].points,
+                  points: 20,
                 }
                 res.send(responseData)
               }
@@ -176,7 +148,6 @@ module.exports = {
     getAll: getAll,
     createNewPlayer: createNewPlayer,
     getPlayerPoints: getPlayerPoints,
-    removePoint: removePoint,
     pointHandler: pointHandler,
     resetPlayer: resetPlayer,
 }

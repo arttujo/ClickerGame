@@ -20,7 +20,7 @@ app.get('/all',(req,res) =>{
     queries.getAll(res)
 })
 
-app.get('/removePoint',(req,res)=>{
+app.post('/removePoint',(req,res)=>{
     const data = [
         req.body.name,
     ]
@@ -28,14 +28,14 @@ app.get('/removePoint',(req,res)=>{
     queries.pointHandler(data,res,currClicks)
 })
 
-app.get('/newPlayer',(req,res) =>{
+app.post('/newPlayer',(req,res) =>{
     const data = [
         req.body.name,
     ];
     queries.createNewPlayer(data,res)
 })
 
-app.get('/player',(req,res) => {
+app.post('/player',(req,res) => {
     //console.log(res)
     console.log(req)
     const data = [
@@ -45,7 +45,7 @@ app.get('/player',(req,res) => {
     queries.getPlayerPoints(data,res)
 })
 
-app.get('/reset',(req,res)=>{
+app.post('/reset',(req,res)=>{
     const data = [
         req.body.name,
     ]
