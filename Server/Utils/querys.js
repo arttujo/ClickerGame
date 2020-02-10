@@ -128,8 +128,6 @@ const exec = (points,data,res,clickAmount)=> {
 
 //Not pretty but does all the handling related to points the user has
 const pointHandler = (data,res,clickAmount) =>{
-    const selectQ = 'SELECT name,points FROM players WHERE `name` = ?'
-    const rmOnePointQ = 'UPDATE players SET points = points - 1 WHERE `name` = ?'
     if (clickAmount%500 == 0){
         console.log("500th")
         exec(250,data,res,clickAmount)
