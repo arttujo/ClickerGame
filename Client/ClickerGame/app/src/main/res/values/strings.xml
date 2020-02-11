@@ -6,4 +6,7 @@
     <string name="game_over">Game Over</string>
     <string name="no_more_points">You have run our of points. Resetting to 20 points!</string>
     <string name="player_created">Player ID created!</string>
+    <string name="congrat">Congratulations!</string>
+    <string name="won_points_start">You have won</string>
+    <string name="won_points_end">points!</string>
 </resources>

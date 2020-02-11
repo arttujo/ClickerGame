@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                             uiThread {
                                 val curPoints= Integer.parseInt(pointLabel.text.toString())
                                 if (curPoints<json.getInt("points")){
-                                    
+                                    prizeAlert(this@MainActivity,json.getString("pointsEarned"))
                                 }
                                 pointLabel.text = json.getString("points")
                                 pointsToLabel.text = json.getString("clicksToNextReward")
@@ -124,16 +124,22 @@ class MainActivity : AppCompatActivity() {
                 }
         }
     }
-
+    //Alerts the user that he has won a certain amount of points when the user wins points
+    private fun prizeAlert(ctx:Context, points:String){
+        val builder = AlertDialog.Builder(ctx)
+        builder.setTitle(R.string.congrat)
+        builder.setMessage("${ctx.getString(R.string.won_points_start)} $points ${ctx.getString(R.string.won_points_end)}")
+        builder.setPositiveButton("Ok"){dialog, which ->  Log.d("DBG", "clicked on win alert")}
+        val alert: AlertDialog = builder.create()
+        alert.setCancelable(false)
+        alert.show()
+    }
     //Alerts the user that he has ran out of points and notifies that the game will start over
     private fun buildAlert(ctx:Context){
         val builder = AlertDialog.Builder(ctx)
         builder.setTitle(R.string.game_over)
-        builder.setMessage(R.string.no_more_points)
-        builder.setPositiveButton("Ok"){
-            dialog, which ->
-            Log.d("DBG","clicked on alert")
-        }
+        builder.setMessage(R.string.no_more_points )
+        builder.setPositiveButton("Ok"){ dialog, which -> Log.d("DBG","clicked on alert")}
         val alert: AlertDialog = builder.create()
         alert.setCancelable(false)
         alert.show()
