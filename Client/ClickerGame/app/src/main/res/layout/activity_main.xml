@@ -68,15 +68,30 @@
         android:layout_width="84dp"
         android:layout_height="66dp"
         android:layout_marginStart="163dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="31dp"
         android:layout_marginEnd="164dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
         android:text="0"
         android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/playButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

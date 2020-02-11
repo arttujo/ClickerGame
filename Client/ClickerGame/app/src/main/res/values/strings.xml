@@ -5,4 +5,5 @@
     <string name="pointsTo">Clicks to next reward</string>
     <string name="game_over">Game Over</string>
     <string name="no_more_points">You have run our of points. Resetting to 20 points!</string>
+    <string name="player_created">Player ID created!</string>
 </resources>

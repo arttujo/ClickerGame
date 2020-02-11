@@ -1,3 +1,5 @@
+//Created by Arttu Jokinen
+
 package com.example.myapplication
 
 import android.content.Context
@@ -8,90 +10,131 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.google.gson.JsonObject
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.OkHttpClient
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject
-import retrofit2.http.HTTP
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.*
-
 
 class MainActivity : AppCompatActivity() {
 
+    private var url = "http://foxer153.asuscomm.com:3000"
     private var uniqueID:String?= null
     private var PREF_UNIQUE_ID = "PREF_UNIQUE_ID"
+    private var PREF_POINTS = "PREF_POINTS"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         createUUID(this)
-
+        newUser(this)
+        setPoints(this)
+        //This listener does all the handling related to the points of the user.
         playButton.setOnClickListener {
-            Log.d("DBG",getUUID(this))
-
-
             doAsync {
                 var json: JSONObject
-                //TODO GET REQUEST FOR POINT HANDLING HERE
-                Fuel.post("http://foxer153.asuscomm.com:3000/removePoint")
-                    .jsonBody("{\"name\":\"test1\"}")
+                Fuel.post("$url/removePoint")
+                    .jsonBody("{\"name\":\"${getUUID(this@MainActivity)}\"}")
                     .also { Log.d("DBG", it.toString()) }
                     .response { result ->
-                        Log.d("DBG",result.toString())
                         val (bytes,error) = result
                         if (bytes!=null){
                             json = JSONObject(String(bytes))
                             Log.d("DBG",json.toString())
-                            Log.d("DBG",json.getBoolean("pointsEnded").toString())
                             if (json.getBoolean("pointsEnded")){
-                                //TODO tell user that game will start over for him
-                                Fuel.post("http://foxer153.asuscomm.com:3000/reset")
-                                    .jsonBody("{\"name\":\"test1\"}")
+                                //If pointsEnded = true, makes a new request to reset the players points
+                                Fuel.post("$url/reset")
+                                    .jsonBody("{\"name\":\"${getUUID(this@MainActivity)}\"}")
                                     .also { Log.d("DBG",it.toString()) }
                                     .response { result ->
                                         Log.d("DBG","user reset")
                                         uiThread {
                                             buildAlert(this@MainActivity)
+                                            //Short cutting here to just set the value instead of handling the result json
                                             pointLabel.text = "20"
                                         }
                                     }
                             }
                             Log.d("DBG",json.getString("name"))
                             Log.d("DBG",json.getInt("points").toString())
-
-
                             uiThread {
-                                //TODO CHANGE SCORE LABEL AND CLICKS TO LABEL HERE
                                 pointLabel.text = json.getString("points")
                                 pointsToLabel.text = json.getString("clicksToNextReward")
                             }
                         }
                     }
-
             }
         }
 
     }
 
-    //Alerts the user that he has ran out of points and notifies that the game will start over for him
+    //Sends a post request to the server and from the result saves them to shared preferences
+    //Also used to display users score when the application is launched.
+    private fun setPoints(ctx:Context){
+        val sharedPrefs = ctx.getSharedPreferences(PREF_POINTS, Context.MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+        doAsync {
+            Fuel.post("$url/player")
+                .jsonBody("{\"name\":\"${getUUID(ctx)}\"}")
+                .also { Log.d("DBG",it.toString()) }
+                .response { result ->
+                    val (bytes,error) = result
+                    if (bytes!=null){
+                        val response = JSONObject(String(bytes))
+                        val points = response.getInt("points")
+                        editor.putInt(PREF_POINTS,points)
+                        editor.apply()
+                        uiThread {
+                            val pointsfrompref = sharedPrefs.getInt(PREF_POINTS,0)
+                            pointLabel.text = pointsfrompref.toString()
+                        }
+                    }
+                }
+        }
+    }
+
+    //Creates new user if the user doesn't exist. Notifies user with a Snackbar when user is created.
+    //Doesn't do anything if the user already has an "account"
+    private fun newUser(ctx:Context){
+        doAsync {
+            Fuel.post("$url/newPlayer")
+                .jsonBody("{\"name\":\"${getUUID(ctx)}\"}")
+                .also { Log.d("DBG",it.toString()) }
+                .response { result ->
+                    val (bytes,error) = result
+                    if (bytes!=null){
+                        val response = JSONObject(String(bytes))
+                        Log.d("DBG",response.toString())
+                        if (response.getBoolean("playerCreated")){
+                            uiThread {
+                                Snackbar.make(coordinator,R.string.player_created,Snackbar.LENGTH_LONG)
+                                    .setAction("Ok"){}
+                                    .show()
+                            }
+                        } else if (!response.getBoolean("playerCreated")){
+                            //No player created
+                        }
+                    }
+                }
+        }
+    }
+
+    //Alerts the user that he has ran out of points and notifies that the game will start over
     private fun buildAlert(ctx:Context){
         val builder = AlertDialog.Builder(ctx)
         builder.setTitle(R.string.game_over)
         builder.setMessage(R.string.no_more_points)
         builder.setPositiveButton("Ok"){
             dialog, which ->
-            Log.d("DBG","yes clicked on alert")
+            Log.d("DBG","clicked on alert")
         }
         val alert: AlertDialog = builder.create()
         alert.setCancelable(false)
         alert.show()
     }
 
-    //Returns UUID as a string
+    //Returns UUID as string
     private fun getUUID(ctx:Context):String{
         val sharedPref = ctx.getSharedPreferences(PREF_UNIQUE_ID,Context.MODE_PRIVATE)
         val uuid = sharedPref.getString(PREF_UNIQUE_ID,uniqueID)
@@ -102,7 +145,6 @@ class MainActivity : AppCompatActivity() {
         if(uniqueID == null){
             val sharedPrefs: SharedPreferences = ctx.getSharedPreferences(PREF_UNIQUE_ID,Context.MODE_PRIVATE)
             uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID,null)
-
             if (uniqueID==null){
                 uniqueID = UUID.randomUUID().toString()
                 val editor = sharedPrefs.edit()
@@ -111,5 +153,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
