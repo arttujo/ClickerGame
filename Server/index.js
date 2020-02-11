@@ -7,19 +7,19 @@ const bodyParser = require('body-parser')
 
 const app = express()
 
-//The click amount of players is tracked via a simple variable on the server. Will reset everytime when the server is restarted tho
-
+//The click amount of players is tracked via a simple variable on the server. Will reset everytime when the server is restarted.
 let currClicks = 0
 
 app.use(bodyParser.json())
 //app.use(express.static('public'))
 app.use('/modules', express.static('node_modules'));
 
-
+//Returns all players and their scores from the database
 app.get('/all',(req,res) =>{
     queries.getAll(res)
 })
 
+//Does all the point handling. 
 app.post('/removePoint',(req,res)=>{
     const data = [
         req.body.name,
@@ -28,6 +28,7 @@ app.post('/removePoint',(req,res)=>{
     queries.pointHandler(data,res,currClicks)
 })
 
+//Creates new player
 app.post('/newPlayer',(req,res) =>{
     const data = [
         req.body.name,
@@ -35,6 +36,7 @@ app.post('/newPlayer',(req,res) =>{
     queries.createNewPlayer(data,res)
 })
 
+//Returns player points
 app.post('/player',(req,res) => {
     //console.log(res)
     console.log(req)
@@ -45,6 +47,7 @@ app.post('/player',(req,res) => {
     queries.getPlayerPoints(data,res)
 })
 
+//Resets player back to 20 points
 app.post('/reset',(req,res)=>{
     const data = [
         req.body.name,

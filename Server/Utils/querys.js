@@ -105,7 +105,7 @@ const exec = (points,data,res,clickAmount)=> {
     )
 }
 
-//Not pretty but does all the handling related to points the user has
+//Does point handling.
 const pointHandler = (data,res,clickAmount) =>{
     if (clickAmount%500 === 0){
         console.log("500th")

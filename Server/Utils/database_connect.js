@@ -10,7 +10,7 @@ const connect = () => {
         database: process.env.DB_NAME,
         password: process.env.DB_PASS,
         waitForConnections: true,
-        connectionLimit: 10,
+        connectionLimit: 50,
         queueLimit: 0
     })
     return connection
