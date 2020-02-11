@@ -23,7 +23,7 @@ const createNewPlayer = (data,res) => {
         'SELECT name FROM players WHERE `name` = ?',
         data,
         (err,results,fields)=>{
-            if (results.length === 0){
+            if (results == null){
                 db.connect().execute(
                     'INSERT INTO players (name, points) VALUES (?,20);',
                     data,
