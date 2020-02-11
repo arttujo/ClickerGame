@@ -1,6 +1,7 @@
 'use strict'
 
 const db = require('./database_connect')
+const pool = db.connect()
 
 //returns all the players in the database
 const getAll = (res) => {
@@ -46,6 +47,7 @@ const createNewPlayer = (data,res) => {
             }  
         }
     )
+    
 }
 //Just returns player name and points
 const getPlayerPoints = (data,res) => { 
@@ -72,7 +74,7 @@ const getPlayerPoints = (data,res) => {
 const exec = (points,data,res,clickAmount)=> {
     const selectQ = 'SELECT name,points FROM players WHERE `name` = ?'
     const addPointsQ = 'UPDATE players SET points = points + '+ points +' WHERE `name` = ?'
-    db.connect().execute(
+    pool.getConnection().execute(
         addPointsQ,
         data,
         (err,results,fields)=>{
@@ -106,7 +108,7 @@ const exec = (points,data,res,clickAmount)=> {
                 )
             }
         }
-    )
+    ) 
 }
 
 //Does point handling.
