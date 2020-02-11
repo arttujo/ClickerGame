@@ -31,6 +31,7 @@ const createNewPlayer = (data,res) => {
                         console.log(results)
                         let responseData = {
                             response: "Created player with name: " + data[0], 
+                            playerCreated: true
                         }
                         res.send(responseData)
                     }
@@ -38,7 +39,8 @@ const createNewPlayer = (data,res) => {
             } else {
                 console.log("Player aleady exists")
                 let responseData = {
-                    response: "player with name: "+data[0]+ " already exists!"
+                    response: "player with name: "+data[0]+ " already exists!",
+                    playerCreated: false
                 }
                 res.send(responseData)
             }  
@@ -52,7 +54,11 @@ const getPlayerPoints = (data,res) => {
         data,
         (err,results,fields)=>{
             if (err == null){
-                res.send(results)
+                let responseData = {
+                    name: results[0].name,
+                    points: results[0].points,
+                }
+                res.send(responseData)
             } else {
                 console.log("error")
                 let error = {error: "404"}
