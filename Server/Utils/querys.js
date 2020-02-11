@@ -3,9 +3,10 @@
 const db = require('./database_connect')
 const pool = db.connect()
 
+
 //returns all the players in the database
 const getAll = (res) => {
-    db.connect().query(
+    pool.query(
         'SELECT * FROM players',
         (err,results,fields) => {
             console.log(results)
@@ -20,12 +21,12 @@ const getAll = (res) => {
 }
 //Creates a new player in the database
 const createNewPlayer = (data,res) => {
-    db.connect().query(
+    pool.query(
         'SELECT name FROM players WHERE `name` = ?',
         data,
         (err,results,fields)=>{
             if (results == null){
-                db.connect().execute(
+                pool.execute(
                     'INSERT INTO players (name, points) VALUES (?,20);',
                     data,
                     (err,results,fields) => {
@@ -51,7 +52,7 @@ const createNewPlayer = (data,res) => {
 }
 //Just returns player name and points
 const getPlayerPoints = (data,res) => { 
-    db.connect().query(
+    pool.query(
         'SELECT name,points FROM players WHERE `name` = ?',
         data,
         (err,results,fields)=>{
@@ -74,12 +75,12 @@ const getPlayerPoints = (data,res) => {
 const exec = (points,data,res,clickAmount)=> {
     const selectQ = 'SELECT name,points FROM players WHERE `name` = ?'
     const addPointsQ = 'UPDATE players SET points = points + '+ points +' WHERE `name` = ?'
-    db.connect().execute(
+    pool.execute(
         addPointsQ,
         data,
         (err,results,fields)=>{
             if (err==null){
-                db.connect().query(
+                pool.query(
                     selectQ,
                     data,
                     (err,results,fields)=>{
@@ -130,12 +131,12 @@ const pointHandler = (data,res,clickAmount) =>{
 
 const resetPlayer = (data,res) => {
   const selectQ = 'SELECT name,points FROM players WHERE `name` = ?'
-  db.connect().query(
+  pool.query(
       selectQ,
       data,
       (err,results,fields)=>{
         if (err==null){
-          db.connect().execute(
+          pool.execute(
               'UPDATE players SET points = 20 WHERE `name` = ?',
               data,
               (err,fields)=>{
