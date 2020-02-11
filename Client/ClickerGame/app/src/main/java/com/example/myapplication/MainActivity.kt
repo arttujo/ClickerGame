@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         createUUID(this)
         newUser(this)
-        setPoints(this)
+        setPoints(this,getUUID(this))
         //This listener does all the handling related to the points of the user.
         playButton.setOnClickListener {
             doAsync {
@@ -71,17 +71,16 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         }
-
     }
 
     //Sends a post request to the server and from the result saves them to shared preferences
     //Also used to display users score when the application is launched.
-    private fun setPoints(ctx:Context){
+    private fun setPoints(ctx:Context, uuid: String){
         val sharedPrefs = ctx.getSharedPreferences(PREF_POINTS, Context.MODE_PRIVATE)
         val editor = sharedPrefs.edit()
         doAsync {
             Fuel.post("$url/player")
-                .jsonBody("{\"name\":\"${getUUID(ctx)}\"}")
+                .jsonBody("{\"name\":\"${uuid}\"}")
                 .also { Log.d("DBG",it.toString()) }
                 .response { result ->
                     val (bytes,error) = result

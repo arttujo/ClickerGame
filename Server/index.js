@@ -42,7 +42,7 @@ app.post('/player',(req,res) => {
     console.log(req)
     const data = [
         req.body.name,
-    ];
+    ]
     console.log(data)
     queries.getPlayerPoints(data,res)
 })
