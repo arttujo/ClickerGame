@@ -74,7 +74,7 @@ const getPlayerPoints = (data,res) => {
 const exec = (points,data,res,clickAmount)=> {
     const selectQ = 'SELECT name,points FROM players WHERE `name` = ?'
     const addPointsQ = 'UPDATE players SET points = points + '+ points +' WHERE `name` = ?'
-    pool.getConnection().execute(
+    db.connect().execute(
         addPointsQ,
         data,
         (err,results,fields)=>{
