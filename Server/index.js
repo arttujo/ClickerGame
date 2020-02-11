@@ -32,14 +32,12 @@ app.post('/removePoint',(req,res)=>{
 app.post('/newPlayer',(req,res) =>{
     const data = [
         req.body.name,
-    ];
+    ]
     queries.createNewPlayer(data,res)
 })
 
 //Returns player points
 app.post('/player',(req,res) => {
-    //console.log(res)
-    console.log(req)
     const data = [
         req.body.name,
     ]

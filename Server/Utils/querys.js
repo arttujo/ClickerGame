@@ -25,9 +25,10 @@ const createNewPlayer = (data,res) => {
         'SELECT name FROM players WHERE `name` = ?',
         data,
         (err,results,fields)=>{
-            if (results == null){
+            console.log(results)
+            if (results.length === 0){
                 pool.execute(
-                    'INSERT INTO players (name, points) VALUES (?,20);',
+                    'INSERT INTO players (name, points) VALUES (?,20)',
                     data,
                     (err,results,fields) => {
                         console.log(results)
@@ -48,8 +49,8 @@ const createNewPlayer = (data,res) => {
             }  
         }
     )
-    
 }
+
 //Just returns player name and points
 const getPlayerPoints = (data,res) => { 
     pool.query(
@@ -154,11 +155,6 @@ const resetPlayer = (data,res) => {
   )
 }
         
-    
-
-
-
-
 module.exports = {
     getAll: getAll,
     createNewPlayer: createNewPlayer,
