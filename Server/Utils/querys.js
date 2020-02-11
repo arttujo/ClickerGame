@@ -76,7 +76,7 @@ const exec = (points,data,res,clickAmount)=> {
                     data,
                     (err,results,fields)=>{
                         //res.send(results)
-                        if (results[0].points === 0){
+                        if (results[0].points <= 0){
                             let responseData= {
                                 response: "No more points",
                                 pointsEnded: true
@@ -87,7 +87,8 @@ const exec = (points,data,res,clickAmount)=> {
                             let responseData = {
                                 name: results[0].name,
                                 points: results[0].points,
-                                clicksToNextReward: toNextReward
+                                clicksToNextReward: toNextReward,
+                                pointsEnded: false
                             }
                             res.send(responseData)
                         }
