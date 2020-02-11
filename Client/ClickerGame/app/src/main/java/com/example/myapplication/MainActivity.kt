@@ -58,7 +58,12 @@ class MainActivity : AppCompatActivity() {
                             }
                             Log.d("DBG",json.getString("name"))
                             Log.d("DBG",json.getInt("points").toString())
+
                             uiThread {
+                                val curPoints= Integer.parseInt(pointLabel.text.toString())
+                                if (curPoints<json.getInt("points")){
+                                    
+                                }
                                 pointLabel.text = json.getString("points")
                                 pointsToLabel.text = json.getString("clicksToNextReward")
                             }

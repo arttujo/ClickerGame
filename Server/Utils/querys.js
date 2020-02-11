@@ -100,7 +100,8 @@ const exec = (points,data,res,clickAmount)=> {
                                 name: results[0].name,
                                 points: results[0].points,
                                 clicksToNextReward: toNextReward,
-                                pointsEnded: false
+                                pointsEnded: false,
+                                pointsEarned: points
                             }
                             res.send(responseData)
                         }
