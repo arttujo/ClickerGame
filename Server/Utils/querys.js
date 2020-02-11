@@ -82,6 +82,9 @@ const exec = (points,data,res,clickAmount)=> {
                     data,
                     (err,results,fields)=>{
                         //res.send(results)
+                        if (results == null){
+
+                        } else {
                         if (results[0].points <= 0){
                             let responseData= {
                                 response: "No more points",
@@ -98,6 +101,7 @@ const exec = (points,data,res,clickAmount)=> {
                             }
                             res.send(responseData)
                         }
+                    }
                     }
                 )
             }
