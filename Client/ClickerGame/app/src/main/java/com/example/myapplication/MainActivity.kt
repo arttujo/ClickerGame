@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
     private var PREF_POINTS = "PREF_POINTS"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         createUUID(this)
         newUser(this)
-        setPoints(this,getUUID(this))
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
         //This listener does all the handling related to the points of the user.
         playButton.setOnClickListener {
             doAsync {
@@ -115,9 +115,10 @@ class MainActivity : AppCompatActivity() {
                                 Snackbar.make(coordinator,R.string.player_created,Snackbar.LENGTH_LONG)
                                     .setAction("Ok"){}
                                     .show()
+                                setPoints(ctx,getUUID(ctx))
                             }
                         } else if (!response.getBoolean("playerCreated")){
-                            //No player created
+                            setPoints(ctx,getUUID(ctx))
                         }
                     }
                 }
